@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import createNewSuperAdmin from "../services/superadmin/createSuperAdmin.service";
-import createNewAdmin from "../services/superadmin/createNewAdmin.service";
+import createNewSuperAdmin from "../services/superadmin/CreateSuperAdmin.service";
+import createNewAdmin from "../services/superadmin/CreateNewAdmin.service";
+import superAdminLogin from "../services/superadmin/SuperAdminLogin.service";
+import deleteAdminService from "../services/superadmin/DeleteAdmin.service";
 
 export const createSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -15,6 +17,24 @@ export const createAdmin = async (req: Request, res: Response, next: NextFunctio
     try {
         const newAdmin = await createNewAdmin.create(req.body);
         return res.status(201).json({ message: 'New admin created', adminInfo: newAdmin, status: 'Created', code: 0 });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const superadminLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const loginInfo = await superAdminLogin.login(req.body);
+        return res.json({ message: 'Logged in', loginInfo, status: 'Ok', code: 0 });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const adminDeleted = await deleteAdminService.delete(req.body.username);
+        return res.json({ message: 'Admin removed successfully', adminDeleted, status: 'Ok', code: 0 });
     } catch (error) {
         next(error);
     }
