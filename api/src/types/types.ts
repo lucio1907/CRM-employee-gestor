@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
+import { DecimalDataType } from "sequelize";
 
 // --------- SUPERADMIN ---------- //
 export interface SuperAdminBody {
@@ -29,3 +30,36 @@ export interface AdminLogin {
 export interface ReqExtended extends Request {
   user?: JwtPayload | { id: string };
 }
+
+// --------- BUSSINESS ---------- //
+export interface EmployeesTypes {
+  name: string;
+  lastname: string;
+  birth_date: Date;
+  genre?: string;
+  address?: string;
+  phone?: string;
+  email: string;
+  hired_date: Date;
+  department_id?: string;
+  position_id?: string;
+  supervisor_id?: string;
+}
+
+export interface DepartmentsTypes {
+  name: string;
+  description: string;
+}
+
+export interface SupervisorTypes {
+  name: string;
+  lastname: string;
+  email: string;
+  phone?: string;
+}
+
+export interface PositionTypes {
+  name: string,
+  description: string,
+  base_salary: DecimalDataType
+};

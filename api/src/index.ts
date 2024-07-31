@@ -9,6 +9,7 @@ const main = async (): Promise<void> => {
     const PORT: number = configServer.server.port as number;
     app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
   } catch (error) {
+    console.log(error);
     console.log("Unable to connect to the database");
   }
 };

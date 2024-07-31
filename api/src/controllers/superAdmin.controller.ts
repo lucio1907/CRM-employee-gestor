@@ -3,6 +3,9 @@ import createNewSuperAdmin from "../services/superadmin/CreateSuperAdmin.service
 import createNewAdmin from "../services/superadmin/CreateNewAdmin.service";
 import superAdminLogin from "../services/superadmin/SuperAdminLogin.service";
 import deleteAdminService from "../services/superadmin/DeleteAdmin.service";
+import createDepartmentService from "../services/superadmin/departments/CreateDepartments.service";
+import createSupervisorService from "../services/superadmin/supervisors/CreateSupervisor.service";
+import createPositionService from "../services/superadmin/positions/CreatePosition.service";
 
 export const createSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,6 +39,33 @@ export const deleteAdmin = async (req: Request, res: Response, next: NextFunctio
         const adminDeleted = await deleteAdminService.delete(req.body.username);
         return res.json({ message: 'Admin removed successfully', adminDeleted, status: 'Ok', code: 0 });
     } catch (error) {
+        next(error);
+    }
+};
+
+export const createDepartment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const newDepartment = await createDepartmentService.create(req.body);
+        return res.status(201).json({ message: 'New department created', newDepartment, status: 'Created', code: 0 });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const createSupervisor = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const newSupervisor = await createSupervisorService.create(req.body);
+        return res.status(201).json({ message: 'New supervisor created', newSupervisor, status: 'Created', code: 0 });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const createPosition = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const newPosition = await createPositionService.create(req.body);
+        return res.status(201).json({ message: 'New position created', newPosition, status: 'Created', code: 0 });
+    } catch (error) {        
         next(error);
     }
 };
