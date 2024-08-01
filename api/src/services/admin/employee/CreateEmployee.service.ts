@@ -2,6 +2,7 @@ import EmployeesModel from "../../../models/Employees.model";
 import { EmployeesTypes } from "../../../types/types";
 import BadRequestException from "../../../errors/BadRequestException";
 import { v4 as uuid } from "uuid";
+import capitalizeText from "../../../utils/capitalizeText.utils";
 
 class CreateEmployeeService {
     private collection;
@@ -15,7 +16,7 @@ class CreateEmployeeService {
     };
 
     public create = async (body: EmployeesTypes) => {
-        const { name, lastname, email, birth_date } = body;
+        const { name, lastname, email, birth_date, phone, ...rest } = body;
 
         if ([name, lastname, email, birth_date].includes('')) throw new BadRequestException('Fiels (name, lastname, email, birth date) cannot be empty');
 
@@ -24,7 +25,12 @@ class CreateEmployeeService {
 
         const newEmployee = {
             id: uuid(),
-            ...body
+            name: capitalizeText(name),
+            lastname: capitalizeText(lastname),
+            email,
+            phone: !phone ? 'No phone' : phone,
+            birth_date,
+            ...rest
         }
 
         await this.collection.create(newEmployee);
