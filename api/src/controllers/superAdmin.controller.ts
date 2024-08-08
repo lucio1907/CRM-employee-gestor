@@ -6,6 +6,8 @@ import deleteAdminService from "../services/superadmin/DeleteAdmin.service";
 import createDepartmentService from "../services/superadmin/departments/CreateDepartments.service";
 import createSupervisorService from "../services/superadmin/supervisors/CreateSupervisor.service";
 import createPositionService from "../services/superadmin/positions/CreatePosition.service";
+import getAdminsService from "../services/superadmin/GetAdminService.service";
+import getAdminByUsernameService from "../services/superadmin/GetAdminByUsername.service";
 
 export const createSuperAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -66,6 +68,25 @@ export const createPosition = async (req: Request, res: Response, next: NextFunc
         const newPosition = await createPositionService.create(req.body);
         return res.status(201).json({ message: 'New position created', newPosition, status: 'Created', code: 0 });
     } catch (error) {        
+        next(error);
+    }
+};
+
+export const getAdmins = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const admins = await getAdminsService.get();
+        return res.json({ message: 'Done', admins, status: 'Ok', code: 0 });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getAdminByUsername = async (req: Request, res: Response, next: NextFunction) => {
+    const { username } = req.params;
+    try {
+        const admin = await getAdminByUsernameService.get(username);
+        return res.json({ message: 'Done', admin, status: 'Ok', code: 0 });
+    } catch (error) {
         next(error);
     }
 };

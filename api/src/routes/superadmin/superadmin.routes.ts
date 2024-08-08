@@ -6,6 +6,8 @@ import {
   createSuperAdmin,
   createSupervisor,
   deleteAdmin,
+  getAdminByUsername,
+  getAdmins,
   superadminLogin,
 } from "../../controllers/superAdmin.controller";
 import createSuperAdminMiddleware from "../../middlewares/createSuperAdmin.middleware";
@@ -19,6 +21,8 @@ router.post('/create-superadmin', createSuperAdminMiddleware, createSuperAdmin);
 router.post('/login', superadminLogin);
 router.post('/create-admin', checkIsSuperadmin, checkSession, createAdmin);
 router.delete('/delete-admin', checkIsSuperadmin, checkSession, deleteAdmin);
+router.get('/getadmins', checkIsSuperadmin, checkSession, getAdmins);
+router.get('/getadminbyuser/:username', checkIsSuperadmin, checkSession, getAdminByUsername);
 
 // * BUSSINESS
 router.post('/create-department', checkIsSuperadmin, checkSession, createDepartment);
